@@ -534,8 +534,6 @@ This project is provided as-is for demonstration and educational purposes. Revie
 
 **Made with ❤️ by Karan Rathod**
 
-[⬆ Back to Top](#-document-analyzer)
+[⬆ Back to Top](#legalease-ai--document-analyzer)
 
-</div>#   l e x p r i m e - a i 
- 
- 
+</div>
