@@ -34,7 +34,7 @@ export function removeGeminiApiKey(): void {
 export async function validateGeminiApiKey(key: string): Promise<boolean> {
   try {
     const genAI = new GoogleGenerativeAI(key);
-    const model = genAI.getGenerativeModel({ model: "gemini-2.0-flash" });
+    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
     // Simple prompt to test connectivity
     await model.generateContent({
       contents: [{ role: 'user', parts: [{ text: 'Test' }] }],

@@ -8,8 +8,10 @@ import { GoogleGenerativeAI } from '@google/generative-ai';
 import { getGeminiApiKey } from '../../utils/apiKey';
 import { logger } from '../../utils/logger';
 
-export const GEMINI_MODEL_FAST = 'gemini-2.0-flash';
-export const GEMINI_MODEL_PRO = 'gemini-2.0-flash'; // Standardized on stable flash model
+// Updated to standard stable models: gemini-1.5-flash with gemini-2.5-flash fallback
+export const GEMINI_MODEL_FAST = 'gemini-1.5-flash';
+export const GEMINI_MODEL_PRO = 'gemini-1.5-flash';
+export const GEMINI_MODEL_FALLBACK = 'gemini-2.5-flash';
 
 export function getGenAIClient(): GoogleGenerativeAI | null {
   const key = getGeminiApiKey();
