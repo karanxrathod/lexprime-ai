@@ -117,7 +117,7 @@ export class GeminiLiveService {
                 },
             },
             config: {
-                // @ts-ignore
+                // @ts-expect-error Modality typing from @google/genai
                 responseModalities: [Modality.AUDIO],
                 speechConfig: {
                     voiceConfig: { prebuiltVoiceConfig: { voiceName: 'Zephyr' } },

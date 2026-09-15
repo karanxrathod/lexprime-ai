@@ -400,13 +400,16 @@ const DocumentInput: React.FC<DocumentInputProps> = ({
             <h3 className="text-lg font-semibold mb-2">{t.needHelp}</h3>
             <p className="text-blue-100 text-sm mb-4">{t.needHelpText}</p>
             <div className="flex gap-2">
-              <div
-                onClick={() => document.querySelector('textarea')?.focus()}
+              <button
+                type="button"
+                onClick={() => setShowPreview(true)}
                 className="inline-flex items-center gap-2 text-sm font-medium bg-white/20 hover:bg-white/30 px-3 py-2 rounded-lg cursor-pointer transition-colors"
+                aria-label={t.pasteTextBtn}
               >
-                {t.pasteTextBtn} <Plus className="h-4 w-4" />
-              </div>
-              <div
+                {t.pasteTextBtn} <Plus className="h-4 w-4" aria-hidden="true" />
+              </button>
+              <button
+                type="button"
                 onClick={() => {
                   const sampleText = sampleContracts[language]?.[0]?.text || "";
                   if (sampleText) {
@@ -415,9 +418,10 @@ const DocumentInput: React.FC<DocumentInputProps> = ({
                   }
                 }}
                 className="inline-flex items-center gap-2 text-sm font-medium bg-white/10 hover:bg-white/20 px-3 py-2 rounded-lg cursor-pointer transition-colors"
+                aria-label={t.sampleText}
               >
                 {t.sampleText}
-              </div>
+              </button>
             </div>
           </div>
         </div>

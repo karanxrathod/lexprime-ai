@@ -88,7 +88,7 @@ const LawyerChat: React.FC<LawyerChatProps> = ({ role, onBack }) => {
       let responseContent = '';
       let responseType: 'text' | 'image' | 'mindmap' = 'text';
       let imageUrl = '';
-      let metadata = {};
+      const metadata = {};
 
       if (activeTool === 'image') {
         try {

@@ -56,12 +56,13 @@ const AnalysisResults: React.FC<AnalysisResultsProps> = ({
       );
       const { downloadPdf } = await import("../services/pdfService");
 
-      // Generate HTML from analysis
+      // Generate HTML from analysis and sanitize against XSS vectors
       const htmlContent = await generatePdfHtmlFromAnalysis(analysis);
+      const { sanitizeHtml } = await import("../utils/sanitizer");
 
       // Create a temporary container for rendering HTML
       const tempDiv = document.createElement("div");
-      tempDiv.innerHTML = htmlContent;
+      tempDiv.innerHTML = sanitizeHtml(htmlContent);
       document.body.appendChild(tempDiv);
 
       // Download PDF
@@ -112,9 +113,9 @@ const AnalysisResults: React.FC<AnalysisResultsProps> = ({
   const scrollToSection = (id: string) => {
     setActiveSection(id);
     const container = document.getElementById("content-container");
-    if (container) {
+    if (container && typeof container.scrollTo === "function") {
       container.scrollTo({ top: 0, behavior: "smooth" });
-    } else {
+    } else if (typeof window.scrollTo === "function") {
       window.scrollTo({ top: 0, behavior: "smooth" });
     }
   };

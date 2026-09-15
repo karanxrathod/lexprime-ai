@@ -111,6 +111,56 @@ LexPrime AI improves access to legal understanding by making the first layer of 
 
 The platform is designed as an **AI-assisted legal understanding tool**, not a replacement for qualified legal professionals.
 
+### 🔄 System Logic & Architecture Workflow
+
+LexPrime AI processes legal documents through a deterministic, end-to-end multi-stage pipeline:
+
+```text
+Document Input (PDF / TXT / Paste)
+        │
+        ▼
+Digital Text Extraction (pdfjs-dist)
+        │
+        ├── [If text layer present] ────────┐
+        │                                   ▼
+        └── [If scanned/image] ────► OCR Fallback (Tesseract.js)
+                                            │
+                                            ▼
+                                Intelligent Chunking (4000 chars + 500 overlap)
+                                            │
+                                            ▼
+                                Gemini 2.0 Flash Legal Analysis Engine
+                                            │
+                                            ▼
+                                Response Repair & Schema Validation
+                                            │
+                                            ▼
+                             Structured Legal Insights:
+               - Plain Summary & Multi-party Impact
+               - Clause Lens Breakdown (Low / Med / High Risk)
+               - Risk Radar & Action Points
+               - Negotiation Counter-offers & Role Perspectives
+               - Enforceability, Citations & Authenticity Audit
+                                            │
+                                            ▼
+                            Contextual Document Chat (RAG)
+                                            │
+                                            ▼
+                          Escalation to Professional Legal Help
+                              (Geo-located Lawyer Directory)
+```
+
+**Step-by-Step Logic Pipeline:**
+1. **Document Ingestion:** Accepts digital PDFs, scanned documents, text files, or raw clipboard paste.
+2. **Text Extraction:** Uses `pdfjs-dist` to extract structured text layers directly from the client.
+3. **OCR Fallback:** Automatically invokes `tesseract.js` client-side only when digital text is absent or insufficient (<50 characters), avoiding redundant OCR overhead.
+4. **Intelligent Chunking:** Employs boundary-aware chunking (approx 4,000 characters with 500-character overlap) preserving clause cohesion across page breaks.
+5. **Gemini 2.0 Analysis:** Queries Google Gemini with specialized legal prompts and low temperature for deterministic, grounded outputs.
+6. **JSON Validation & Fault Tolerance:** Uses `jsonrepair` and fallback schema mappers so malformed or conversational model outputs are safely converted to valid structured data.
+7. **Interactive Visual Dashboard:** Renders insights across 7 visual perspectives, Mermaid workflow diagrams, timelines, and multilingual views (English, Hindi, Marathi).
+8. **Document-Grounded Chat:** Retains document context in-memory with strict safety guardrails against hallucinating non-existent contractual terms.
+9. **Professional Help Escalation:** Connects users to nearby qualified advocates via Google Maps API integration when complex legal intervention is needed.
+
 ---
 
 ## ✨ Features
@@ -854,68 +904,67 @@ lexprime-ai/
 
 ---
 
-## 🧪 Recommended Testing Scope
+## 🧪 Testing & Quality Assurance
 
-The project should be tested across:
+LexPrime AI includes an enterprise-grade automated test suite built with **Vitest**, **React Testing Library**, **@testing-library/jest-dom**, and **@vitest/coverage-v8**.
 
-- PDF upload and parsing
-- OCR fallback
-- Large-document chunking
-- Gemini JSON parsing
-- Invalid AI response handling
-- Authentication flows
-- Firestore authorization
-- Document history
-- AI chat
-- Multilingual output
-- Responsive layout
-- Keyboard accessibility
+### Running Automated Checks
 
-Automated unit and integration tests are planned as part of continued project hardening.
+```bash
+# Run all unit and integration tests
+npm run test:run
+
+# Run full test suite with code coverage analysis
+npm run test:coverage
+
+# Run TypeScript type verification across the entire project
+npm run typecheck
+
+# Run ESLint validation
+npm run lint
+```
+
+### Test Suite Architecture
+The test suite spans 14 test modules verifying:
+- **Intelligent Chunking (`chunking.test.ts`)**: Boundary preservation, zero data loss, overlap consistency.
+- **AI JSON Parsing & Resilience (`documentAnalysis.test.ts`)**: Handling clean JSON, embedded markdown blocks, truncated outputs, and malformed strings.
+- **OCR Fallback (`ocr.test.ts`)**: Digital extraction bypass vs fallback invocation on low character count.
+- **PDF Extraction (`pdf.test.ts`)**: Page boundary rendering and multi-page accumulation.
+- **Contextual Chat (`documentChat.test.ts`)**: Guardrails against non-document claims and legal hallucination.
+- **Multi-perspective Analysis (`roleAnalysis.test.ts`)**: Role balancing and enforceability mapping.
+- **Security & Sanitization (`sanitizer.test.ts`, `logger.test.ts`)**: XSS prevention, URL scheme validation, sensitive data masking in logs.
+- **UI Components & Accessibility (`DocumentInput.test.tsx`, `AnalysisResults.test.tsx`, `LawyerChat.test.tsx`)**: ARIA landmarks, keyboard navigation, focus management, screen-reader text alongside color risk tags.
+
+---
+
+## 📌 Assumptions & Limitations
+
+1. **Document Legibility**: Optimal analysis assumes digital native PDFs, legible scans (>150 DPI), or direct text input. Severely degraded or blurry scans may result in OCR errors.
+2. **Informational Scope**: LexPrime AI provides automated structural and semantic legal information for educational and preliminary review purposes. It is not an attorney and does not form an attorney-client relationship.
+3. **Statutory Jurisdictions**: Legal citations prioritize well-established statutes (Indian Contract Act, Consumer Protection Act, Transfer of Property Act, IT Act, and common law principles). Novel or highly localized municipal bylaws should be verified by a local advocate.
+4. **Multilingual Processing**: Cross-lingual legal translations (English, Hindi, Marathi) are generated using Gemini's multilingual comprehension; colloquial dialect variations may require attorney clarification.
 
 ---
 
 ## ⚠️ Responsible AI & Legal Disclaimer
 
-LexPrime AI provides **AI-assisted legal information and document understanding**.
+> **IMPORTANT: AI-generated information is not legal advice.**
 
-It does **not** provide professional legal advice and does not replace a qualified lawyer.
-
-AI-generated analysis may be incomplete, incorrect, or dependent on the quality of the uploaded document.
-
-For important legal, financial, employment, property, or contractual decisions:
-
-> **Always consult a qualified legal professional.**
+- **No Attorney-Client Privilege**: Using LexPrime AI does not create an attorney-client relationship.
+- **Verification Requirement**: AI analyses are heuristic interpretations to assist non-lawyers in asking informed questions. Critical legal, financial, or contractual obligations should always be verified by an accredited legal practitioner.
+- **Hallucination Prevention**: Prompts explicitly forbid inventing statutes, penalty amounts, or clauses not present in the ingested document.
+- **Privacy & Data Security**: Document contents are analyzed in client memory with sanitization; sensitive logs are masked before terminal output.
+- **Escalation Pathway**: For any detected high-risk or ambiguous clauses, LexPrime AI actively directs users to consult qualified advocates via the integrated Lawyer Locator.
 
 ---
 
-## 🤝 Contributing
+## 🚀 Hackathon Submission & Single Branch Compliance
 
-Contributions are welcome.
-
-1. Fork the repository
-2. Create a feature branch
-
-```bash
-git checkout -b feature/AmazingFeature
-```
-
-3. Follow the existing project architecture
-4. Update documentation where necessary
-5. Test your changes
-6. Commit your work
-
-```bash
-git commit -m "Add AmazingFeature"
-```
-
-7. Push the branch
-
-```bash
-git push origin feature/AmazingFeature
-```
-
-8. Open a Pull Request
+This project strictly adheres to all hackathon repository rules:
+- **Single Branch**: Operated and deployed exclusively from `main`.
+- **Repository Size**: Maintained cleanly under 5 MB (well below the 10 MB limit).
+- **Clean Hygiene**: Zero secret credentials, `.env` files, or service account keys tracked in Git.
+- **Continuous Deployment**: Automated GitHub Actions deploy directly to Firebase Hosting on `main` push.
 
 ---
 

@@ -51,7 +51,6 @@ interface AppShellProps {
   onLogout?: () => void;
   onLogin?: () => void;
   onSignup?: () => void;
-  onSignup?: () => void;
   language: Language;
   onLanguageChange: (lang: Language) => void;
 }
@@ -134,6 +133,14 @@ const AppShell: React.FC<AppShellProps> = ({
 
   return (
     <div className="w-screen h-screen flex flex-col md:flex-row bg-premium-gradient overflow-hidden">
+      {/* Skip to Main Content Link for Keyboard / Screen Reader Accessibility */}
+      <a
+        href="#main-content"
+        className="sr-only focus:not-sr-only focus:fixed focus:top-4 focus:left-4 focus:z-[9999] focus:px-4 focus:py-2 focus:bg-primary focus:text-primary-foreground focus:rounded-lg focus:shadow-xl focus:ring-2 focus:ring-ring focus:outline-none font-medium text-sm transition-all"
+      >
+        Skip to main content
+      </a>
+
       {/* Top bar - Fixed height on mobile, part of flex column */}
       <div className="md:hidden h-14 border-b border-border bg-background/80 backdrop-blur flex items-center justify-between px-3 shrink-0 z-20">
         <div className="flex items-center gap-2">
@@ -404,7 +411,7 @@ const AppShell: React.FC<AppShellProps> = ({
       </motion.aside>
 
       {/* Main Content Area */}
-      <main className="flex-1 flex flex-col h-full overflow-hidden relative">
+      <main id="main-content" className="flex-1 flex flex-col h-full overflow-hidden relative">
         {/* Desktop Header (Top Bar) - Only visible on desktop inside main area now */}
         <header className="hidden md:flex h-16 border-b border-border bg-background/80 backdrop-blur items-center justify-between px-6 shrink-0 relative z-50">
           {/* Left side of header */}

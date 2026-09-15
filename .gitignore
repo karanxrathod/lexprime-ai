@@ -109,7 +109,19 @@ dist
 
 # Environment variables
 .env
+.env.*
+!.env.example
 .env.local
 .env.development.local
 .env.test.local
 .env.production.local
+
+# Firebase & Secret Credentials
+.firebase
+.firebase/
+service-account*.json
+*-firebase-adminsdk-*.json
+*.pem
+*.key
+
+

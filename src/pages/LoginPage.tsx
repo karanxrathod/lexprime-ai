@@ -221,7 +221,7 @@ const LoginPage: React.FC<LoginPageProps> = ({ onNavigate }) => {
       showSuccess('Login Successful', 'Logged in with GitHub.');
     } catch (err: any) {
       // Enhanced error handling for GitHub
-      let errorCode = err.code;
+      const errorCode = err.code;
 
       // Handle specific GitHub OAuth errors
       if (err.code === 'auth/account-exists-with-different-credential') {

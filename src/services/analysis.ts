@@ -1,7 +1,8 @@
 import { db } from './firebase';
-import { collection, addDoc, query, where, getDocs, orderBy, serverTimestamp, type FieldValue } from 'firebase/firestore';
+import { collection, addDoc, query, where, getDocs, serverTimestamp, type FieldValue } from 'firebase/firestore';
 import { getAuth } from 'firebase/auth';
 import type { AnalysisHistoryItem } from '../types/history.ts';
+import { logger } from '../utils/logger';
 
 // Type used for creating a new analysis history item with server-assigned timestamp
 type AnalysisHistoryCreate = Omit<AnalysisHistoryItem, 'id' | 'timestamp'> & {
@@ -18,17 +19,7 @@ export const saveAnalysisToHistory = async (analysisItem: Omit<AnalysisHistoryIt
     if (!user) {
       throw new Error('User not authenticated. Cannot save analysis to history.');
     }
-
-    console.log('✅ User authenticated:', user.uid);
-
-    // First, let's try a very simple test write without serverTimestamp
-    console.log('🧪 Testing simple write to Firestore...');
-    const testDoc = await addDoc(collection(db, 'test'), {
-      message: 'Hello Firestore!',
-      userId: user.uid,
-      createdAt: new Date().toISOString()
-    });
-    console.log('✅ Test write successful! ID:', testDoc.id);
+    logger.info('Saving analysis for user:', user.uid);
 
     const analysisToSave: AnalysisHistoryCreate = {
       ...analysisItem,
