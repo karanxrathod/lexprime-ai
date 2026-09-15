@@ -11,6 +11,9 @@ import { splitTextIntoChunks } from '../documents/chunking';
 import { runWithConcurrency } from '../../utils/concurrencyPool';
 import { logger } from '../../utils/logger';
 import { isSafeUrl } from '../../utils/sanitizer';
+import { getUserFriendlyErrorMessage } from '../../utils/errorMessage';
+
+export { getUserFriendlyErrorMessage };
 
 export interface AnalyzeParams {
   content: string;
@@ -263,6 +266,7 @@ export async function analyzeDocumentWithGemini(params: AnalyzeParams): Promise<
   const seenCitationKeys = new Set<string>();
 
   // Process chunks with controlled concurrency (max 2 parallel tasks to protect API quotas)
+  let lastError: Error | null = null;
   const chunkResults = await runWithConcurrency(
     chunks,
     async (chunkText, index) => {
@@ -280,12 +284,18 @@ export async function analyzeDocumentWithGemini(params: AnalyzeParams): Promise<
         const parsed = safeParseJson(text);
         return mapToDocumentAnalysis(parsed);
       } catch (err) {
+        lastError = err instanceof Error ? err : new Error(String(err));
         logger.error(`[DocumentAnalysis] Error analyzing chunk ${index + 1}:`, err);
         return null;
       }
     },
     2
   );
+
+  const validResults = chunkResults.filter(Boolean);
+  if (validResults.length === 0 && chunks.length > 0) {
+    throw lastError || new Error('Failed to analyze document chunks with Gemini');
+  }
 
   // Deterministically merge chunk results
   for (const partial of chunkResults) {

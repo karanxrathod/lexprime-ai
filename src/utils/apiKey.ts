@@ -12,7 +12,7 @@ export function getGeminiApiKey(): string | null {
   // 2. Try .env
   const envKey = import.meta.env.VITE_GEMINI_API_KEY;
   // Ignore placeholder value or empty string
-  if (envKey && envKey !== "your_gemini_api_key" && envKey.trim() !== "") {
+  if (envKey && !envKey.startsWith("your_gemini_api_key") && envKey.trim() !== "") {
     return envKey;
   }
 

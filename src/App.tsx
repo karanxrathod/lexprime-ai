@@ -18,6 +18,7 @@ import {
   generateVisualizationsWithGemini,
   analyzeDocumentAuthenticity,
 } from "./services/gemini";
+import { getUserFriendlyErrorMessage } from "./utils/errorMessage";
 import {
   saveAnalysisToHistory,
   getAnalysisHistoryForUser,
@@ -326,13 +327,27 @@ function App() {
       };
       appendLocalAnalysis(localItem);
     } catch (err: any) {
-      console.error(err);
-      if (err.message && (err.message.includes("API key") || err.message.includes("VITE_GEMINI_API_KEY"))) {
-        if (confirm(language === "hi" ? "API कुंजी गायब है। क्या आप इसे सेटिंग्स में कॉन्फ़िगर करना चाहते हैं?" : "Missing API Key. Go to Settings to configure it?")) {
+      if (import.meta.env.DEV) {
+        console.error('[Document Analysis Technical Error]:', err);
+      }
+      const friendlyMessage = getUserFriendlyErrorMessage(err, language);
+      const isApiKeyIssue = err?.message && (
+        err.message.includes("API key") ||
+        err.message.includes("VITE_GEMINI_API_KEY") ||
+        err.message.includes("not configured")
+      );
+
+      if (isApiKeyIssue) {
+        const confirmPrompt = language === "hi"
+          ? `${friendlyMessage}\nक्या आप इसे सेटिंग्स में कॉन्फ़िगर करना चाहते हैं?`
+          : language === "mr"
+          ? `${friendlyMessage}\nतुम्ही हे सेटिंग्जमध्ये कॉन्फिगर करू इच्छिता?`
+          : `${friendlyMessage}\nWould you like to open Settings to configure your API key?`;
+        if (confirm(confirmPrompt)) {
           setRoute("settings");
         }
       } else {
-        alert(language === "hi" ? "विश्लेषण विफल रहा। कृपया पुन: प्रयास करें।" : "Analysis failed. Please try again.");
+        alert(friendlyMessage);
       }
     } finally {
       setIsAnalyzing(false);
