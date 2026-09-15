@@ -172,14 +172,25 @@ function App() {
 
         const unsavedAnalysisJson = localStorage.getItem("unsavedAnalysis");
         if (unsavedAnalysisJson) {
-          const unsavedAnalysis = JSON.parse(unsavedAnalysisJson);
-          setAnalysis(unsavedAnalysis.analysis);
-          setVisuals(unsavedAnalysis.visuals);
-          setSubmittedContent(unsavedAnalysis.submittedContent);
-          setPdfPreviewUrl(unsavedAnalysis.pdfPreviewUrl);
-          setLanguage(unsavedAnalysis.language);
-          _setSimplificationLevel(unsavedAnalysis.simplificationLevel);
-          setRoute("results");
+          try {
+            const unsavedAnalysis = JSON.parse(unsavedAnalysisJson);
+            if (unsavedAnalysis && typeof unsavedAnalysis === "object" && unsavedAnalysis.analysis) {
+              setAnalysis(unsavedAnalysis.analysis);
+              setVisuals(unsavedAnalysis.visuals || null);
+              setSubmittedContent(unsavedAnalysis.submittedContent || "");
+              setPdfPreviewUrl(unsavedAnalysis.pdfPreviewUrl || null);
+              if (unsavedAnalysis.language) setLanguage(unsavedAnalysis.language);
+              if (unsavedAnalysis.simplificationLevel) _setSimplificationLevel(unsavedAnalysis.simplificationLevel);
+              setRoute("results");
+            } else {
+              localStorage.removeItem("unsavedAnalysis");
+              setRoute("dashboard");
+            }
+          } catch (err) {
+            console.warn("Corrupted unsavedAnalysis in localStorage, clearing:", err);
+            localStorage.removeItem("unsavedAnalysis");
+            setRoute("dashboard");
+          }
         } else {
           setRoute("dashboard");
         }
