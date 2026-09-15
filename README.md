@@ -1,15 +1,15 @@
-# LegalEase AI – Document Analyzer
+# LexPrime AI – AI for Legal Assistance & Access
 
 <div align="center">
 
-**A powerful AI-powered legal document analyzer that simplifies complex legal language**
+**An AI-powered multilingual legal document intelligence platform that helps people understand complex legal documents in clear, actionable language.**
 
 [![React](https://img.shields.io/badge/React-19.0.0-blue.svg)](https://reactjs.org/)
 [![TypeScript](https://img.shields.io/badge/TypeScript-5.5.3-blue.svg)](https://www.typescriptlang.org/)
 [![Firebase](https://img.shields.io/badge/Firebase-12.4.0-orange.svg)](https://firebase.google.com/)
-[![Gemini AI](https://img.shields.io/badge/Gemini-2.5%20Flash-green.svg)](https://ai.google.dev/)
+[![Gemini AI](https://img.shields.io/badge/Gemini-2.0%20Flash-green.svg)](https://ai.google.dev/)
 
-[Features](#-features) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [Documentation](#-documentation) • [Screenshots](#-screenshots)
+[Features](#-features) • [Challenge Alignment](#-challenge-alignment-ai-for-legal-assistance--access) • [Tech Stack](#-tech-stack) • [Getting Started](#-getting-started) • [Security](#-security--privacy) • [Documentation](#-documentation)
 
 </div>
 
@@ -17,17 +17,99 @@
 
 ## 📖 Overview
 
-LegalEase AI is a modern web application that transforms complex legal documents into clear, understandable insights. Using Google's Gemini AI, it analyzes legal contracts clause-by-clause, providing plain-language explanations, risk assessments, role-specific perspectives, and actionable recommendations.
+**LexPrime AI** is a modern AI-powered legal document intelligence platform designed to make legal information easier to understand and more accessible.
 
-### Why LegalEase AI?
+Legal documents are often difficult for ordinary users because they contain complex terminology, long clauses, hidden obligations, and unclear risks. LexPrime AI helps bridge that gap by allowing users to upload a legal document or paste its text and receive:
 
-- 📄 **Understand Any Legal Document** - Upload PDFs or paste text to get instant analysis
-- 🌍 **Bilingual Support** - Full analysis in English or Hindi (हिंदी)
-- 🎯 **Role-Based Insights** - See contracts from different perspectives (Tenant/Landlord, Employee/Employer, etc.)
-- 🔍 **Risk Detection** - Identify potential risks with severity ratings and recommendations
-- 💬 **AI Chat Assistant** - Ask questions about your document in real-time
-- ⚖️ **Find Legal Help** - Integrated lawyer locator with map and filtering
-- 📊 **Visual Insights** - Auto-generated flowcharts, timelines, and responsibility matrices
+- Plain-language explanations
+- Clause-by-clause analysis
+- Risk detection and severity levels
+- Action points and negotiation suggestions
+- Role-specific perspectives
+- Legal citations when confidently inferable
+- Context-aware AI chat
+- Multilingual assistance
+- Authenticity and safety analysis
+- Visual timelines, process flows, and responsibility matrices
+
+The goal is not to replace lawyers. The goal is to help users understand legal documents better, identify possible concerns earlier, and know what questions they should ask before making an important decision.
+
+---
+
+## 🎯 Challenge Alignment: AI for Legal Assistance & Access
+
+LexPrime AI is built specifically around the challenge:
+
+> **AI for Legal Assistance & Access**
+
+Many people sign rental agreements, employment contracts, service agreements, NDAs, consumer contracts, and other legal documents without fully understanding the language used in them. Professional legal help may also be difficult to access because of cost, location, time, or lack of awareness.
+
+LexPrime AI addresses this accessibility gap through AI-assisted legal understanding.
+
+### The Problem
+
+Legal information is often:
+
+- Written in difficult legal language
+- Time-consuming to read and interpret
+- Hard to understand for non-lawyers
+- Difficult to access in local languages
+- Expensive to review professionally for basic understanding
+- Full of clauses whose risks and obligations may not be obvious
+
+This creates an information gap between legal documents and the people expected to understand and act on them.
+
+### Our Solution
+
+LexPrime AI uses Generative AI to convert complex legal documents into structured, understandable insights.
+
+A user can upload a PDF or paste legal text and receive:
+
+1. **Plain-Language Summary**  
+   Converts dense legal language into a concise explanation.
+
+2. **Clause Lens**  
+   Breaks the document into individual clauses and explains their meaning.
+
+3. **Risk Radar**  
+   Identifies potentially concerning clauses and categorizes them as low, medium, or high risk.
+
+4. **Action Points**  
+   Gives users practical next steps, clarification points, and items that may require further review.
+
+5. **Negotiation Support**  
+   Generates negotiation points for higher-risk clauses to help users understand what they may want to discuss or clarify.
+
+6. **Role-Based Perspectives**  
+   Shows how a clause may affect different parties such as Tenant vs Landlord, Employee vs Employer, or Consumer vs Business.
+
+7. **Document-Grounded AI Chat**  
+   Lets users ask questions about the uploaded document and receive answers based on that document's content.
+
+8. **Multilingual Assistance**  
+   Supports legal understanding across English, Hindi, and Marathi workflows.
+
+9. **Authenticity & Safety Analysis**  
+   Highlights suspicious elements, missing information, compliance concerns, and possible red flags.
+
+10. **Legal Visualizations**  
+    Converts complex legal processes into flowcharts, timelines, and responsibility matrices.
+
+11. **Lawyer Discovery**  
+    Helps users move from AI-assisted understanding toward professional legal help when needed.
+
+### How LexPrime Improves Legal Access
+
+LexPrime AI improves access to legal understanding by making the first layer of legal information:
+
+- Easier to read
+- Faster to analyze
+- More visual
+- More multilingual
+- More interactive
+- More accessible to non-lawyers
+
+The platform is designed as an **AI-assisted legal understanding tool**, not a replacement for qualified legal professionals.
 
 ---
 
@@ -36,247 +118,496 @@ LegalEase AI is a modern web application that transforms complex legal documents
 ### 🔍 Document Analysis
 
 #### Intelligent Chunking & Processing
-- Splits large documents into manageable chunks (4000 characters with 400-character overlap)
-- Analyzes each chunk independently and merges results with de-duplication
-- Handles documents of any length reliably
+
+- Splits large legal documents into manageable chunks
+- Uses approximately 4000-character chunks with overlap
+- Analyzes chunks independently
+- Merges results with de-duplication
+- Improves reliability when processing long documents
 
 #### Clause-by-Clause Breakdown
-Each clause includes:
-- **Title & Original Text**: Verbatim clause content
-- **Simplified Explanation**: Plain language translation
-- **Risk Level**: Visual indicators (🟢 Low, 🟡 Medium, 🔴 High)
-- **Detailed Analysis**: Context and implications
 
-#### Role-Specific Perspectives
-For applicable contracts, see tailored analysis for each party:
-- **Tenancy Agreements**: Tenant vs Landlord views
-- **Employment Contracts**: Employee vs Employer views
-- **Consumer Agreements**: Consumer vs Business views
+Each identified clause can include:
 
-Each perspective shows:
-- Interpretation from that role's viewpoint
-- Specific obligations
-- Potential risks and concerns
+- **Title**
+- **Original Text**
+- **Simplified Explanation**
+- **Risk Level**
+- **Detailed Analysis**
+- **Role-specific interpretation**
 
-#### Risk Radar
-- Consolidated list of all identified risks
-- Severity ratings and impact assessment
-- Specific recommendations for mitigation
-- Related clause references
+Risk indicators:
 
-#### Action Points
-Concrete next steps:
-- Items requiring clarification
-- Documents to prepare
-- Follow-up tasks
-- Negotiation points
+- 🟢 Low
+- 🟡 Medium
+- 🔴 High
 
-#### Legal Citations
-When confidently inferable:
-- Relevant statutes and laws
-- Case law references
+---
+
+### 👥 Role-Specific Perspectives
+
+For applicable agreements, LexPrime AI can analyze clauses from different viewpoints.
+
+Examples:
+
+- Tenant vs Landlord
+- Employee vs Employer
+- Consumer vs Business
+
+Each perspective can include:
+
+- Interpretation from that party's viewpoint
+- Obligations
+- Possible concerns
+- Risks associated with the clause
+
+---
+
+### 🚨 Risk Radar
+
+LexPrime AI creates a consolidated view of identified risks.
+
+It can include:
+
+- Risk description
+- Severity
+- Related clause
+- Potential impact
+- Recommended next step
+
+This helps users quickly identify the sections of a document that may deserve closer attention.
+
+---
+
+### ✅ Action Points
+
+The system extracts practical next steps such as:
+
+- Clauses requiring clarification
+- Documents that may need to be prepared
+- Follow-up actions
+- Questions to ask
+- Negotiation opportunities
+
+---
+
+### 🤝 Negotiation Support
+
+For high-risk clauses, LexPrime AI can generate structured negotiation guidance such as:
+
+- Why the clause may be problematic
+- Possible counter-proposal
+- Suggested talking point
+
+This feature is intended to help users better prepare for a discussion, not provide professional legal representation.
+
+---
+
+### 📚 Legal Citations
+
+When confidently inferable, the system can surface:
+
+- Relevant statutes
+- Laws
 - Legal principles
-- Links to authoritative sources
+- Supporting reference links
 
-#### Authenticity Check
-Document verification analysis:
-- **Authenticity Score**: 0-100 rating
-- **Compliance Status**: Legal standard conformance
-- **Red Flags**: Concerning elements
-- **Safety Assessment**: Overall safety score
-- **Fake Indication**: Warning level (Low/Medium/High)
-- **Recommendations**: Actions before signing
+LexPrime AI is designed to avoid inventing citations when reliable references are not available.
 
-### 📊 Visualizations
+---
 
-#### Process Flow Diagrams
-- Mermaid-based flowcharts showing processes
-- Termination, renewal, and dispute resolution flows
-- Decision points and conditional paths
-- Related clause annotations
+### 🛡️ Authenticity & Safety Analysis
 
-#### POV-Based Timelines
-Three perspectives:
-- **Court Perspective**: Legal process timeline
-- **Receiver Perspective**: Party receiving notice timeline
-- **Overall Timeline**: Combined chronological view
+LexPrime AI can analyze a document for potential safety and authenticity concerns.
 
-#### Responsibility Matrix
-Side-by-side comparison table:
-- Topic/obligation areas
-- Party A responsibilities
-- Party B responsibilities
-- Related clause references
+The analysis may include:
 
-### 💬 AI Chat System
+- **Authenticity Score**
+- **Compliance Status**
+- **Possible Red Flags**
+- **Safety Score**
+- **Fake/Scam Indication**
+- **Recommended Next Action**
 
-#### Two Chat Modes
-1. **Floating Chat**: Accessible from any page, minimizable overlay
-2. **Chat Panel**: Full dedicated chat page with larger interface
+Examples of possible red flags:
 
-#### Smart Features
-- **Context-Aware**: All responses based on your uploaded document
-- **Quick Questions**: Pre-populated common queries
-- **Markdown Support**: Formatted responses with bold, lists, code blocks
-- **Bilingual**: Responds in English or Hindi based on your setting
-- **Conversation History**: Maintains context across messages
+- Missing signatures
+- Vague language
+- Unbalanced obligations
+- Missing essential clauses
+- Suspicious formatting or terms
 
-### ⚖️ Lawyer Locator
+---
 
-Find legal professionals near you:
+## 📊 Legal Visualizations
 
-#### Search & Filter
-- **Location Search**: Address or geolocation
-- **Distance Radius**: 5km to 50km range
-- **Specialization Filters**: Contract, Property, Employment, Family Law, etc.
-- **Rating Filter**: Minimum star rating
-- **Availability**: Online consultation option
+Legal documents can be difficult to understand when everything is presented as paragraphs.
 
-#### Lawyer Profiles
-- Name, photo, and bar registration
-- Years of experience
+LexPrime AI converts important information into visual structures.
+
+### Process Flow Diagrams
+
+Examples:
+
+- Contract termination flow
+- Renewal process
+- Notice procedure
+- Dispute resolution process
+
+### POV-Based Timelines
+
+Possible perspectives include:
+
+- Court perspective
+- Receiver perspective
+- Overall chronological timeline
+
+### Responsibility Matrix
+
+Compares the responsibilities of each party side-by-side.
+
+Example:
+
+| Topic | Party A | Party B |
+|---|---|---|
+| Payment | Payment obligation | Receipt/acknowledgement |
+| Notice | Notice requirement | Response obligation |
+| Termination | Exit conditions | Termination rights |
+
+---
+
+## 💬 AI Chat System
+
+LexPrime AI includes document-grounded conversational assistance.
+
+### Chat Modes
+
+1. **Floating Chat**
+   - Available throughout the application
+   - Can be minimized or expanded
+
+2. **Full Chat Panel**
+   - Dedicated conversational interface
+   - Better for longer document discussions
+
+### Chat Capabilities
+
+- Uses the uploaded legal document as primary context
+- Maintains conversation history
+- Supports follow-up questions
+- Can handle hypothetical scenarios
+- Provides structured answers for risks and possible alternatives
+- Supports multilingual responses
+- Uses Markdown formatting for readability
+
+When the document does not contain enough information, the assistant is designed to communicate uncertainty rather than fabricate missing contract terms.
+
+---
+
+## ⚖️ Clause Enforceability Analysis
+
+Users can analyze an individual clause against a selected jurisdiction.
+
+The AI can provide:
+
+- Simplified meaning
+- High-level enforceability status
+- Jurisdiction notes
+- References when available
+- Possible alternatives
+
+Possible statuses:
+
+- Enforceable
+- Restricted
+- Not enforceable
+- Uncertain
+
+This feature provides informational analysis only and does not replace professional legal advice.
+
+---
+
+## 👨‍⚖️ AI Lawyer Assistance
+
+LexPrime AI includes role-oriented AI legal assistance experiences.
+
+The system is designed to:
+
+- Provide clear legal information
+- Explain legal concepts
+- Help users understand possible options
+- Maintain a professional and empathetic tone
+- Remind users that AI output is informational
+
+---
+
+## ⚖️ Lawyer Locator
+
+When AI assistance is not enough, users can move toward professional support.
+
+### Search & Filter
+
+Users can search using:
+
+- Location
+- Distance radius
+- Legal specialization
+- Rating
+- Online consultation availability
+
+### Lawyer Profile Information
+
+Profiles may include:
+
+- Name
+- Bar registration
+- Experience
 - Specializations
-- Average rating and reviews
-- Contact information
-- Office address and map
+- Ratings
+- Contact details
+- Address
 - Consultation fees
-- Languages spoken
+- Languages
 
-#### Display Options
-- **List View**: Scrollable lawyer cards
-- **Map View**: Interactive map with pins
-- **Detail Modal**: Full profile with reviews and actions
+### Views
 
-### 📄 PDF Operations
+- List view
+- Map view
+- Detailed profile modal
 
-#### Upload & Extraction
-- **Drag & Drop**: Easy PDF upload
-- **Text Extraction**: PDF.js for digital PDFs
-- **OCR Fallback**: Tesseract.js for scanned documents
-- **Multi-Page Support**: Handles documents of any length
+---
 
-#### PDF Generation
-Export analysis results:
-- Professional multi-page PDF layout
-- All analysis sections included
-- Visualizations embedded
-- Metadata and timestamps
+## 📄 PDF Operations
 
-### 👤 User Management
+### Upload & Text Extraction
 
-#### Authentication
-- **Email/Password**: Standard signup and login
-- **Google OAuth**: One-click authentication
-- **Profile Management**: Edit name, photo, preferences
-- **Password Reset**: Email-based recovery
+LexPrime AI supports:
 
-#### User Profiles
-- Display name and photo
-- Email and account creation date
-- Preferences (language, theme)
-- Analysis history
+- Drag-and-drop PDF upload
+- Digital PDF text extraction using PDF.js
+- OCR fallback using Tesseract.js
+- Multi-page documents
+- Direct text input
 
-#### Real-Time Sync
-- Preferences sync across devices
-- Firestore real-time listeners
-- Automatic updates without refresh
+### PDF Export
 
-### 📚 Analysis History
+Analysis results can be exported into a professional PDF containing:
 
-#### Storage System
-- **Local Storage**: Last 100 analyses (offline-capable)
-- **Cloud Storage**: Unlimited for authenticated users (Firebase)
-- **Cross-Device Sync**: Access from anywhere
+- Summary
+- Clause analysis
+- Risks
+- Action points
+- Visualizations
+- Metadata
 
-#### History Features
-- Save analyses manually or automatically
-- View previous analyses with one click
-- Delete analyses with confirmation
+---
+
+## 🌐 Multilingual Support
+
+LexPrime AI supports multilingual legal understanding.
+
+Current workflows include:
+
+- **English**
+- **Hindi**
+- **Marathi**
+
+The system can detect Devanagari text and use AI-assisted translation where required before analysis.
+
+Users can receive explanations and AI responses in their selected language.
+
+---
+
+## 👤 User Management
+
+### Authentication
+
+- Email/password authentication
+- Google OAuth
+- Password recovery
+- Profile management
+
+### User Profiles
+
+Profiles can contain:
+
+- Display name
+- Profile image
+- Email
+- Account creation information
+- Language preferences
+- Theme preferences
+
+---
+
+## 📚 Analysis History
+
+### Storage
+
+- Local-first history support
+- Firebase-backed history for authenticated users
+- Cross-device synchronization where configured
+
+### Features
+
+- Save previous analyses
+- Open an old analysis
+- Delete analysis history
+- Sync user-specific history
 - Optimistic UI updates
 
-### 🎨 Theme System
+---
 
-#### Light & Dark Modes
-- **Light Theme**: Clean, professional appearance
-- **Dark Theme**: Easy on eyes, battery-saving
-- **Semantic Colors**: CSS custom properties (HSL)
-- **Smooth Transitions**: Instant theme switching
+## 🎨 User Experience & Accessibility
 
-#### Design System
-- Tailwind CSS with custom configuration
-- Responsive breakpoints (mobile-first)
-- Consistent spacing and typography
-- Accessible color contrasts (WCAG AA)
+### Theme System
 
-### 🌐 Language Support
+- Light mode
+- Dark mode
+- System preference support
+- Smooth theme transitions
 
-#### Bilingual Interface
-- **English**: Full interface and analysis
-- **हिंदी (Hindi)**: Complete Hindi support
+### Responsive Design
 
-#### Features
-- Language selection on first visit
-- Switch languages anytime from header
-- All AI responses in selected language
-- Preference syncs across devices
+The interface is designed for:
 
-### ⚙️ Settings & Customization
+- Desktop
+- Tablet
+- Mobile
 
-- **API Key Configuration**: For advanced users
-- **Default Language**: Set preferred language
-- **Default Simplification Level**: Choose Professional/Simple/ELI5
-- **Theme Preference**: Light/Dark/System
-- **Clear Cache**: Remove local data
-- **Account Management**: Profile, password, delete account
+### Accessibility
 
-### 🎯 Additional Features
+The project includes accessibility-focused UI patterns such as:
 
-- **Sample Contracts**: Try built-in examples (EN/HI)
-  - Service Agreement
-  - Mutual NDA
-  - Residential Lease
-- **Simplification Levels**:
-  - **Professional**: Legal terminology preserved
-  - **Simple**: Plain language
-  - **ELI5**: Extremely simplified
-- **Video Showcase**: Onboarding tutorials
-- **Fullscreen Mode**: Expand any section
-- **Responsive Design**: Works on desktop, tablet, mobile
-- **Toast Notifications**: User-friendly feedback
-- **Loading States**: Smooth loading animations
+- `aria-label` attributes for interactive controls
+- Keyboard-friendly controls
+- Semantic navigation patterns
+- Accessible contrast targets
+- Clear loading and feedback states
+
+---
+
+## 🧠 GenAI Usage
+
+Google Gemini is the primary Generative AI service used by LexPrime AI.
+
+### Gemini is used for:
+
+- Legal document analysis
+- Clause extraction
+- Plain-language simplification
+- Risk identification
+- Action point generation
+- Negotiation suggestions
+- Multilingual translation
+- Document summaries
+- Context-aware legal document chat
+- Clause enforceability analysis
+- Authenticity analysis
+- Safety analysis
+- Process-flow generation
+- Timeline generation
+- Responsibility matrices
+- AI lawyer conversations
+- Legal illustration/SVG generation
+- Mermaid mind-map generation
+
+The current application implementation uses:
+
+**Gemini 2.0 Flash**
+
+through:
+
+`@google/generative-ai`
 
 ---
 
 ## 🛠 Tech Stack
 
 ### Frontend
-- **React 19.0.0** - Modern UI library
-- **TypeScript 5.5.3** - Type-safe development
-- **Vite 6.4.0** - Fast build tool and dev server
-- **Tailwind CSS 3.4.1** - Utility-first CSS framework
-- **Framer Motion 11.3.8** - Smooth animations
+
+- **React 19**
+- **TypeScript 5.5**
+- **Vite 6**
+- **Tailwind CSS**
+- **Framer Motion**
 
 ### AI & APIs
-- **Google Gemini AI (2.5 Flash)** - Document analysis
-- **@google/generative-ai 0.24.1** - Gemini API client
-- **Firebase 12.4.0** - Authentication & Firestore database
+
+- **Google Gemini AI**
+- **@google/generative-ai**
+- **@google/genai**
+- **Google Cloud Vertex AI SDK**
+- **Firebase**
 
 ### Document Processing
-- **pdfjs-dist 5.4.149** - PDF rendering and text extraction
-- **Tesseract.js 6.0.1** - OCR for scanned PDFs
-- **jsPDF 3.0.3** - PDF generation
-- **html2canvas 1.4.1** - HTML to canvas conversion
 
-### Visualization & UI
-- **Mermaid 11.11.0** - Diagram rendering (flowcharts, timelines)
-- **react-chrono 2.4.2** - Timeline visualization
-- **react-markdown 9.0.3** - Markdown rendering
-- **Lucide React 0.400.0** - Icon library
+- **PDF.js**
+- **Tesseract.js**
+- **jsPDF**
+- **html2canvas**
+
+### Visualization
+
+- **Mermaid**
+- **react-chrono**
+- **react-markdown**
+- **Lucide React**
 
 ### Development Tools
-- **ESLint** - Code linting
-- **PostCSS & Autoprefixer** - CSS processing
-- **TypeScript ESLint** - TypeScript linting
+
+- ESLint
+- PostCSS
+- Autoprefixer
+- TypeScript ESLint
+
+---
+
+## 🏗 Architecture
+
+```text
+User
+  │
+  ▼
+React + TypeScript Interface
+  │
+  ├── PDF/Text Input
+  │
+  ├── Authentication
+  │
+  ├── Analysis Dashboard
+  │
+  ├── AI Chat
+  │
+  ├── Visualizations
+  │
+  └── Lawyer Locator
+  │
+  ▼
+Document Processing Layer
+  │
+  ├── PDF.js
+  ├── OCR / Tesseract.js
+  └── Chunking + De-duplication
+  │
+  ▼
+Gemini AI Analysis
+  │
+  ├── Summary
+  ├── Clauses
+  ├── Risks
+  ├── Actions
+  ├── Negotiation
+  ├── Enforceability
+  ├── Authenticity
+  └── Visual Structures
+  │
+  ▼
+Firebase
+  ├── Authentication
+  ├── Firestore
+  └── Hosting
+```
 
 ---
 
@@ -285,147 +616,75 @@ Export analysis results:
 ### Prerequisites
 
 - Node.js 18 or higher
-- Google Gemini API key ([Get one here](https://ai.google.dev/))
-- Firebase project (optional, for authentication and history)
+- Google Gemini API key
+- Firebase project for authentication/history features
 
 ### Installation
 
-1. **Clone the repository**
-   ```bash
-   git clone <repository-url>
-   cd legalDoc
-   ```
+1. Clone the repository:
 
-2. **Install dependencies**
-   ```bash
-   npm install
-   ```
-
-3. **Configure environment variables**
-
-   Create a `.env` file in the project root:
-   ```bash
-   # Required - Gemini API Key
-   VITE_GEMINI_API_KEY=your_gemini_api_key_here
-
-   # Optional - Firebase Configuration
-   VITE_FIREBASE_API_KEY=your_firebase_api_key
-   VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
-   VITE_FIREBASE_PROJECT_ID=your_project_id
-   VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
-   VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
-   VITE_FIREBASE_APP_ID=your_app_id
-   ```
-
-4. **Start the development server**
-   ```bash
-   npm run dev
-   ```
-
-   Open [http://localhost:5173](http://localhost:5173) in your browser.
-
-5. **Build for production**
-   ```bash
-   npm run build
-   npm run preview
-   ```
-
-### Firebase Setup (Optional)
-
-For authentication and cloud storage features:
-
-1. Create a Firebase project at [Firebase Console](https://console.firebase.google.com/)
-2. Enable Authentication (Email/Password and Google providers)
-3. Enable Firestore Database
-4. Add Firebase configuration to `.env` file
-5. Deploy Firestore security rules:
-   ```bash
-   firebase deploy --only firestore:rules
-   ```
-
----
-
-## 📚 Documentation
-
-Comprehensive documentation is available in the `/documentation` folder:
-
-- **[README.md](./documentation/README.md)** - Documentation index and navigation
-- **[USER_GUIDE.md](./documentation/USER_GUIDE.md)** - Complete user manual
-- **[ARCHITECTURE.md](./documentation/ARCHITECTURE.md)** - System architecture
-- **[COMPONENTS.md](./documentation/COMPONENTS.md)** - Component reference (40+ components)
-- **[FEATURES.md](./documentation/FEATURES.md)** - Feature documentation
-- **[THEME_AND_STYLING.md](./documentation/THEME_AND_STYLING.md)** - Design system
-- **[API_SERVICES_DOCUMENTATION.md](./documentation/API_SERVICES_DOCUMENTATION.md)** - API integration
-- **[WORKFLOW_DOCUMENTATION.md](./documentation/WORKFLOW_DOCUMENTATION.md)** - User workflows
-- **[DEPLOYMENT_GUIDE.md](./documentation/DEPLOYMENT_GUIDE.md)** - Deployment instructions
-
----
-
-## 📸 Screenshots
-
-### Document Upload
-![Document Input](./documentation/screenshots/upload.png)
-
-### Analysis Results
-![Analysis Results](./documentation/screenshots/analysis.png)
-
-### Visualizations
-![Visualizations](./documentation/screenshots/visualizations.png)
-
-### Chat Interface
-![Chat Interface](./documentation/screenshots/chat.png)
-
-### Lawyer Locator
-![Lawyer Locator](./documentation/screenshots/lawyer-locator.png)
-
----
-
-## 🏗 Project Structure
-
+```bash
+git clone https://github.com/karanxrathod/lexprime-ai.git
+cd lexprime-ai
 ```
-legalDoc/
-├── src/
-│   ├── components/          # UI components
-│   │   ├── AppShell.tsx
-│   │   ├── DocumentInput.tsx
-│   │   ├── FullscreenModal.tsx
-│   │   ├── MermaidDiagram.tsx
-│   │   ├── PdfViewer.tsx
-│   │   ├── Visualizations.tsx
-│   │   └── ...
-│   ├── analysis/            # Analysis components
-│   │   ├── AnalysisResults.tsx
-│   │   └── AnalysisHistorySidebar.tsx
-│   ├── chatbot/            # Chat components
-│   │   ├── ChatPanel.tsx
-│   │   └── ChatFloating.tsx
-│   ├── mapsComponents/     # Lawyer locator components
-│   │   ├── LawyerCard.tsx
-│   │   ├── LawyerList.tsx
-│   │   └── ...
-│   ├── pages/              # Page components
-│   │   ├── LoginPage.tsx
-│   │   ├── SettingsPage.tsx
-│   │   └── ...
-│   ├── services/           # Business logic
-│   │   ├── gemini.ts       # AI analysis
-│   │   ├── firebase.ts     # Authentication & database
-│   │   ├── pdfService.ts   # PDF processing
-│   │   ├── analysis.ts     # History management
-│   │   └── userService.ts  # User profiles
-│   ├── types/              # TypeScript types
-│   │   ├── legal.ts
-│   │   ├── history.ts
-│   │   └── user.ts
-│   ├── utils/              # Utility functions
-│   ├── App.tsx             # Main app component
-│   └── main.tsx            # Entry point
-├── documentation/          # Comprehensive docs
-├── public/                # Static assets
-├── firebase.json          # Firebase configuration
-├── tailwind.config.js     # Tailwind customization
-├── vite.config.ts         # Vite configuration
-└── package.json           # Dependencies
+
+2. Install dependencies:
+
+```bash
+npm install
+```
+
+3. Configure environment variables:
+
+Create a `.env` file in the project root.
+
+```env
+VITE_GEMINI_API_KEY=your_gemini_api_key_here
+
+VITE_FIREBASE_API_KEY=your_firebase_api_key
+VITE_FIREBASE_AUTH_DOMAIN=your_auth_domain
+VITE_FIREBASE_PROJECT_ID=your_project_id
+VITE_FIREBASE_STORAGE_BUCKET=your_storage_bucket
+VITE_FIREBASE_MESSAGING_SENDER_ID=your_sender_id
+VITE_FIREBASE_APP_ID=your_app_id
+```
+
+> **Security note:** Never commit real credentials or API keys to GitHub. For production systems, sensitive AI credentials should ideally be handled by a secure backend rather than exposed directly to the browser.
+
+4. Start development:
+
+```bash
+npm run dev
+```
+
+5. Build for production:
+
+```bash
+npm run build
+```
+
+6. Preview production build:
+
+```bash
+npm run preview
+```
+
+---
+
+## 🔥 Firebase Setup
+
+For authentication and cloud history:
+
+1. Create a Firebase project
+2. Enable Authentication
+3. Enable Email/Password authentication
+4. Enable Google authentication if required
+5. Enable Firestore Database
+6. Add Firebase configuration to `.env`
+7. Deploy the Firestore security rules
+
+```bash
+firebase deploy --only firestore:rules
 ```
 
 ---
@@ -434,106 +693,266 @@ legalDoc/
 
 ### 1. Analyze a Document
 
-1. Navigate to **Upload** page
-2. Choose input method:
-   - Paste text directly
-   - Upload PDF (drag & drop or click)
-   - Try a sample contract
-3. Select language (English/Hindi)
-4. Choose simplification level
-5. Click **Analyze Document**
+- Open the Upload section
+- Paste legal text or upload a PDF
+- Select your preferred language
+- Choose a simplification level
+- Start analysis
 
-### 2. View Results
+### 2. Review AI Results
 
-Navigate through tabs:
-- **Plain Summary**: Document overview
-- **Clause Lens**: Detailed clause-by-clause analysis
-- **Risk Radar**: Identified risks and recommendations
-- **Action Points**: Next steps
-- **Legal Citations**: Relevant legal references
-- **Authenticity**: Document verification
+Explore:
 
-### 3. Use Visualizations
+- Plain Summary
+- Clause Lens
+- Risk Radar
+- Action Points
+- Negotiation Points
+- Legal Citations
+- Authenticity Analysis
 
-- View auto-generated flowcharts
-- Explore POV-based timelines
-- Review responsibility matrices
-- Use fullscreen mode for detailed view
+### 3. Explore Visualizations
 
-### 4. Chat with AI
+View:
 
-- Click floating chat button or Chat page
-- Ask questions about your document
-- Get context-aware responses
-- View conversation history
+- Process flows
+- Timelines
+- Responsibility matrices
+- Mind maps
 
-### 5. Find a Lawyer
+### 4. Ask Questions
 
-- Go to Lawyer Locator page
-- Enter location or use geolocation
-- Filter by specialization and rating
-- View profiles and contact lawyers
+Use the AI chat to ask questions about the document.
+
+Examples:
+
+- What happens if I terminate this agreement early?
+- Which clause creates the highest financial risk?
+- What are my responsibilities?
+- Is there a notice period?
+- What should I clarify before signing?
+
+### 5. Find Professional Help
+
+Use the Lawyer Locator when professional legal review is needed.
 
 ---
 
 ## 🔒 Security & Privacy
 
-- **API Keys**: Stored in environment variables, never committed
-- **Firebase Security Rules**: User data protected with authentication
-- **No Data Collection**: Documents analyzed are not stored on servers
-- **Local First**: Analyses saved locally by default
-- **HTTPS Only**: Secure communication in production
+LexPrime AI is designed with privacy and user ownership in mind.
+
+Current measures include:
+
+- API keys are not intended to be committed to source control
+- Firebase Authentication protects user-specific functionality
+- Analysis history uses authenticated user ownership rules
+- Local-first storage is supported for analysis history
+- Production traffic uses HTTPS through Firebase Hosting
+- Document-grounded AI is instructed not to fabricate missing contract terms
+
+### Important Production Security Note
+
+The current frontend supports API-key configuration for development and prototype usage.
+
+For a production-grade legal application, Gemini requests should be routed through a protected backend such as:
+
+- Firebase Functions
+- Google Cloud Run
+- Another authenticated server-side API
+
+This helps prevent exposing long-lived AI credentials in client-side code.
+
+---
+
+## ♿ Accessibility
+
+LexPrime AI aims to make legal understanding accessible not only through AI but also through interface design.
+
+Accessibility considerations include:
+
+- Accessible labels for interactive controls
+- Keyboard-operable buttons and navigation
+- Clear loading states
+- Responsive layouts
+- Light and dark themes
+- Readable information hierarchy
+- Visual risk indicators with textual descriptions
+
+Future improvements include continued WCAG auditing and screen-reader testing.
+
+---
+
+## 📚 Documentation
+
+Detailed technical documentation is available in the `/documentation` directory.
+
+- **[README.md](./documentation/README.md)** – Documentation index
+- **[USER_GUIDE.md](./documentation/USER_GUIDE.md)** – User guide
+- **[ARCHITECTURE.md](./documentation/ARCHITECTURE.md)** – Architecture
+- **[COMPONENTS.md](./documentation/COMPONENTS.md)** – Components
+- **[FEATURES.md](./documentation/FEATURES.md)** – Features
+- **[THEME_AND_STYLING.md](./documentation/THEME_AND_STYLING.md)** – Design system
+- **[API_SERVICES_DOCUMENTATION.md](./documentation/API_SERVICES_DOCUMENTATION.md)** – API integrations
+- **[WORKFLOW_DOCUMENTATION.md](./documentation/WORKFLOW_DOCUMENTATION.md)** – Workflows
+- **[DEPLOYMENT_GUIDE.md](./documentation/DEPLOYMENT_GUIDE.md)** – Deployment
+
+---
+
+## 📸 Screenshots
+
+### Document Upload
+
+![Document Input](./documentation/screenshots/upload.png)
+
+### Analysis Results
+
+![Analysis Results](./documentation/screenshots/analysis.png)
+
+### Visualizations
+
+![Visualizations](./documentation/screenshots/visualizations.png)
+
+### AI Chat
+
+![Chat Interface](./documentation/screenshots/chat.png)
+
+### Lawyer Locator
+
+![Lawyer Locator](./documentation/screenshots/lawyer-locator.png)
+
+---
+
+## 🏗 Project Structure
+
+```text
+lexprime-ai/
+├── src/
+│   ├── components/
+│   ├── analysis/
+│   ├── chatbot/
+│   ├── mapsComponents/
+│   ├── pages/
+│   ├── services/
+│   │   ├── gemini.ts
+│   │   ├── firebase.ts
+│   │   ├── pdfService.ts
+│   │   ├── analysis.ts
+│   │   └── userService.ts
+│   ├── types/
+│   ├── utils/
+│   ├── App.tsx
+│   └── main.tsx
+├── documentation/
+├── public/
+├── firebase.json
+├── firestore.rules
+├── tailwind.config.js
+├── vite.config.ts
+└── package.json
+```
+
+---
+
+## 🧪 Recommended Testing Scope
+
+The project should be tested across:
+
+- PDF upload and parsing
+- OCR fallback
+- Large-document chunking
+- Gemini JSON parsing
+- Invalid AI response handling
+- Authentication flows
+- Firestore authorization
+- Document history
+- AI chat
+- Multilingual output
+- Responsive layout
+- Keyboard accessibility
+
+Automated unit and integration tests are planned as part of continued project hardening.
+
+---
+
+## ⚠️ Responsible AI & Legal Disclaimer
+
+LexPrime AI provides **AI-assisted legal information and document understanding**.
+
+It does **not** provide professional legal advice and does not replace a qualified lawyer.
+
+AI-generated analysis may be incomplete, incorrect, or dependent on the quality of the uploaded document.
+
+For important legal, financial, employment, property, or contractual decisions:
+
+> **Always consult a qualified legal professional.**
 
 ---
 
 ## 🤝 Contributing
 
-Contributions are welcome! Please follow these guidelines:
+Contributions are welcome.
 
 1. Fork the repository
-2. Create a feature branch (`git checkout -b feature/AmazingFeature`)
-3. Follow the existing code style and architecture
-4. Update documentation for any new features
-5. Test your changes thoroughly
-6. Commit your changes (`git commit -m 'Add some AmazingFeature'`)
-7. Push to the branch (`git push origin feature/AmazingFeature`)
+2. Create a feature branch
+
+```bash
+git checkout -b feature/AmazingFeature
+```
+
+3. Follow the existing project architecture
+4. Update documentation where necessary
+5. Test your changes
+6. Commit your work
+
+```bash
+git commit -m "Add AmazingFeature"
+```
+
+7. Push the branch
+
+```bash
+git push origin feature/AmazingFeature
+```
+
 8. Open a Pull Request
-
-See [ARCHITECTURE.md](./documentation/ARCHITECTURE.md) for design principles and [COMPONENTS.md](./documentation/COMPONENTS.md) for component patterns.
-
----
-
-## 📝 License
-
-This project is provided as-is for demonstration and educational purposes. Review and adapt before using in production.
-
-**⚠️ Important Disclaimer**: AI-generated content is not legal advice. Always consult a qualified lawyer for legal decisions.
 
 ---
 
 ## 🙏 Acknowledgments
 
-- **Google Gemini** for powerful AI analysis
-- **Firebase** for authentication and database
-- **Tailwind CSS** for the design system
-- **Mermaid** for diagram rendering
-- **PDF.js** for PDF processing
-- **Tesseract.js** for OCR capabilities
+LexPrime AI uses and builds upon excellent open-source and cloud technologies including:
+
+- Google Gemini
+- Firebase
+- React
+- TypeScript
+- Tailwind CSS
+- Mermaid
+- PDF.js
+- Tesseract.js
+- jsPDF
+
+Thank you to the developer and open-source communities behind these technologies.
 
 ---
 
 ## 📧 Contact & Support
 
-- **Documentation**: See [/documentation](./documentation) folder
-- **Issues**: Report bugs via GitHub Issues
-- **Questions**: Check [USER_GUIDE.md](./documentation/USER_GUIDE.md) troubleshooting section
+- **GitHub:** https://github.com/karanxrathod/lexprime-ai
+- **Issues:** Use GitHub Issues for bugs and suggestions
+- **Documentation:** See the `/documentation` folder
 
 ---
 
 <div align="center">
 
-**Made with ❤️ by Karan Rathod**
+### LexPrime AI
 
-[⬆ Back to Top](#legalease-ai--document-analyzer)
+**Making legal documents easier to understand with AI.**
+
+**Built by Karan Rathod**
+
+[⬆ Back to Top](#lexprime-ai--ai-for-legal-assistance--access)
 
 </div>
