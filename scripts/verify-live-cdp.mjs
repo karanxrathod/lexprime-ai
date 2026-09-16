@@ -191,12 +191,12 @@ async function run() {
     throw new Error('Analyze button could not be clicked');
   }
 
-  // Poll for completion (up to 45 seconds)
+  // Poll for completion (up to 90 seconds)
   console.log('Waiting for AI document analysis to complete on live website...');
   let completed = false;
   let analysisData = null;
 
-  for (let i = 0; i < 30; i++) {
+  for (let i = 0; i < 60; i++) {
     await new Promise(r => setTimeout(r, 1500));
     const check = await send('Runtime.evaluate', {
       expression: `
