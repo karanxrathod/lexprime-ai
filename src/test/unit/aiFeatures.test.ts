@@ -5,137 +5,87 @@ import { generateVisualizationsWithGemini, generateMindmapCode } from '../../ser
 import { isBackendProxyConfigured, callAiBackendProxy } from '../../services/ai/backendProxy';
 import { translateToEnglish } from '../../services/ai/translation';
 
-vi.mock('../../services/ai/geminiClient', () => ({
-  getGenAIClient: vi.fn(() => ({
-    getGenerativeModel: vi.fn(() => ({
-      generateContent: vi.fn().mockImplementation(async (req: any) => {
-        const text = req.contents?.[0]?.parts?.[0]?.text || '';
-        if (text.includes('enforceability specialist')) {
-          return {
-            response: {
-              text: () => JSON.stringify({
-                clause: 'Non-compete for 5 years across India',
-                jurisdiction: 'India',
-                simplifiedMeaning: 'Restricts employment post-resignation.',
-                status: 'not_enforceable',
-                jurisdictionNotes: 'Section 27 of Indian Contract Act renders post-employment non-compete void.',
-                references: [{ title: 'Section 27 ICA', url: 'https://legislative.gov.in', description: 'Restraint of trade' }],
-                alternatives: ['Non-solicitation agreement']
-              })
-            }
-          };
-        }
-        if (text.includes('forensic document')) {
-          return {
-            response: {
-              text: () => JSON.stringify({
-                authenticityScore: 85,
-                isCompliant: true,
-                compliantWith: 'Indian Contract Act 1872',
-                redFlags: [],
-                safetyScore: 80,
-                safetyAnalysis: 'Standard commercial contract.',
-                fakeIndication: 'Low',
-                recommendation: 'Document is standard.'
-              })
-            }
-          };
-        }
-        if (text.includes('visualization architecture')) {
-          return {
-            response: {
-              text: () => JSON.stringify({
-                textSummary: 'Summary of contract flows',
-                flows: [{ id: '1', label: 'Dispute Flow', nodes: [{ id: 'n1', label: 'Notice' }], edges: [] }],
-                responsibilities: { label: 'Duties', partyALabel: 'Tenant', partyBLabel: 'Landlord', items: [] }
-              })
-            }
-          };
-        }
-        if (text.includes('Mermaid.js mindmaps')) {
-          return {
-            response: {
-              text: () => '```mermaid\nmindmap\n  root((Contract))\n    Clauses\n```'
-            }
-          };
-        }
-        if (text.includes('legal translator')) {
-          return {
-            response: {
-              text: () => 'Translated English contract text.'
-            }
-          };
-        }
-        return { response: { text: () => '{}' } };
-      }),
+vi.mock('../../services/ai/geminiClient', () => {
+  const handler = async (req: any) => {
+    const text = typeof req.contents === 'string' ? req.contents : (req.contents?.[0]?.parts?.[0]?.text || '');
+    if (text.includes('enforceability specialist')) {
+      return {
+        text: JSON.stringify({
+          clause: 'Non-compete for 5 years across India',
+          jurisdiction: 'India',
+          simplifiedMeaning: 'Restricts employment post-resignation.',
+          status: 'not_enforceable',
+          jurisdictionNotes: 'Section 27 of Indian Contract Act renders post-employment non-compete void.',
+          references: [{ title: 'Section 27 ICA', url: 'https://legislative.gov.in', description: 'Restraint of trade' }],
+          alternatives: ['Non-solicitation agreement']
+        }),
+        rawResponse: {},
+        modelUsed: 'gemini-3.6-flash'
+      };
+    }
+    if (text.includes('forensic document')) {
+      return {
+        text: JSON.stringify({
+          authenticityScore: 85,
+          isCompliant: true,
+          compliantWith: 'Indian Contract Act 1872',
+          redFlags: [],
+          safetyScore: 80,
+          safetyAnalysis: 'Standard commercial contract.',
+          fakeIndication: 'Low',
+          recommendation: 'Document is standard.'
+        }),
+        rawResponse: {},
+        modelUsed: 'gemini-3.6-flash'
+      };
+    }
+    if (text.includes('visualization architecture')) {
+      return {
+        text: JSON.stringify({
+          textSummary: 'Summary of contract flows',
+          flows: [{ id: '1', label: 'Dispute Flow', nodes: [{ id: 'n1', label: 'Notice' }], edges: [] }],
+          responsibilities: { label: 'Duties', partyALabel: 'Tenant', partyBLabel: 'Landlord', items: [] }
+        }),
+        rawResponse: {},
+        modelUsed: 'gemini-3.6-flash'
+      };
+    }
+    if (text.includes('Mermaid.js mindmaps')) {
+      return {
+        text: '```mermaid\nmindmap\n  root((Contract))\n    Clauses\n```',
+        rawResponse: {},
+        modelUsed: 'gemini-3.6-flash'
+      };
+    }
+    if (text.includes('legal translator')) {
+      return {
+        text: 'Translated English contract text.',
+        rawResponse: {},
+        modelUsed: 'gemini-3.6-flash'
+      };
+    }
+    return { text: '{}', rawResponse: {}, modelUsed: 'gemini-3.6-flash' };
+  };
+
+  return {
+    generateContentWithFallback: vi.fn().mockImplementation(handler),
+    getGenAIClient: vi.fn(() => ({
+      models: {
+        generateContent: vi.fn().mockImplementation(handler)
+      }
     })),
-  })),
-  requireGenAIClient: vi.fn(() => ({
-    getGenerativeModel: vi.fn(() => ({
-      generateContent: vi.fn().mockImplementation(async (req: any) => {
-        const text = req.contents?.[0]?.parts?.[0]?.text || '';
-        if (text.includes('enforceability specialist')) {
-          return {
-            response: {
-              text: () => JSON.stringify({
-                clause: 'Non-compete for 5 years across India',
-                jurisdiction: 'India',
-                simplifiedMeaning: 'Restricts employment post-resignation.',
-                status: 'not_enforceable',
-                jurisdictionNotes: 'Section 27 of Indian Contract Act renders post-employment non-compete void.',
-                references: [{ title: 'Section 27 ICA', url: 'https://legislative.gov.in', description: 'Restraint of trade' }],
-                alternatives: ['Non-solicitation agreement']
-              })
-            }
-          };
-        }
-        if (text.includes('forensic document')) {
-          return {
-            response: {
-              text: () => JSON.stringify({
-                authenticityScore: 85,
-                isCompliant: true,
-                compliantWith: 'Indian Contract Act 1872',
-                redFlags: [],
-                safetyScore: 80,
-                safetyAnalysis: 'Standard commercial contract.',
-                fakeIndication: 'Low',
-                recommendation: 'Document is standard.'
-              })
-            }
-          };
-        }
-        if (text.includes('visualization architecture')) {
-          return {
-            response: {
-              text: () => JSON.stringify({
-                textSummary: 'Summary of contract flows',
-                flows: [{ id: '1', label: 'Dispute Flow', nodes: [{ id: 'n1', label: 'Notice' }], edges: [] }],
-                responsibilities: { label: 'Duties', partyALabel: 'Tenant', partyBLabel: 'Landlord', items: [] }
-              })
-            }
-          };
-        }
-        if (text.includes('Mermaid.js mindmaps')) {
-          return {
-            response: {
-              text: () => '```mermaid\nmindmap\n  root((Contract))\n    Clauses\n```'
-            }
-          };
-        }
-        if (text.includes('legal translator')) {
-          return {
-            response: {
-              text: () => 'Translated English contract text.'
-            }
-          };
-        }
-        return { response: { text: () => '{}' } };
-      }),
+    requireGenAIClient: vi.fn(() => ({
+      models: {
+        generateContent: vi.fn().mockImplementation(handler)
+      }
     })),
-  })),
-  GEMINI_MODEL_FAST: 'gemini-2.0-flash',
-}));
+    PRIMARY_MODEL: 'gemini-3.6-flash',
+    FALLBACK_MODEL: 'gemini-3.5-flash',
+    GEMINI_MODEL_FAST: 'gemini-3.6-flash',
+    GEMINI_MODEL_PRO: 'gemini-3.6-flash',
+    GEMINI_MODEL_FALLBACK: 'gemini-3.5-flash',
+  };
+});
 
 describe('Extended AI Services: Enforceability, Authenticity, Visualizations, & Proxy', () => {
   it('analyzes clause enforceability with regional statutory reasoning', async () => {

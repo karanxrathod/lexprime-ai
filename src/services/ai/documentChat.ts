@@ -5,15 +5,13 @@
  */
 
 import type { ChatRequest, ChatMessage } from '../../types/chat';
-import { requireGenAIClient, GEMINI_MODEL_FAST } from './geminiClient';
+import { generateContentWithFallback, GEMINI_MODEL_FAST } from './geminiClient';
 import { logger } from '../../utils/logger';
 
 export const RESPONSIBLE_AI_DISCLAIMER =
   '\n\n*Disclaimer: LexPrime AI provides informational analysis grounded in your document. It is not professional legal advice.*';
 
 export async function chatWithGemini(req: ChatRequest): Promise<ChatMessage> {
-  const genAI = requireGenAIClient();
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
 
   logger.info('[DocumentChat] Processing chat query');
 
@@ -53,15 +51,16 @@ export async function chatWithGemini(req: ChatRequest): Promise<ChatMessage> {
     req.message,
   ].join('\n');
 
-  const response = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: userPrompt }] }],
-    generationConfig: {
+  const { text: rawAnswer } = await generateContentWithFallback({
+    model: GEMINI_MODEL_FAST,
+    contents: userPrompt,
+    config: {
       temperature: 0.3,
       maxOutputTokens: 2048,
     },
   });
 
-  let answer = response.response.text().trim();
+  let answer = rawAnswer.trim();
 
   // Attach legal disclaimer if not already present
   if (!answer.toLowerCase().includes('not legal advice') && !answer.toLowerCase().includes('disclaimer')) {

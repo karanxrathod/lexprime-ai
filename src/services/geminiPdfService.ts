@@ -1,13 +1,6 @@
-import { GoogleGenAI } from "@google/genai";
-
-import { getGeminiApiKey } from "../utils/apiKey";
+import { generateContentWithFallback, PRIMARY_MODEL } from "./ai/geminiClient";
 
 export async function generateExplanation(inputData: object | string): Promise<string> {
-  const apiKey = getGeminiApiKey();
-  if (!apiKey) {
-    throw new Error("Gemini API key not found. Please configure it in Settings.");
-  }
-  const ai = new GoogleGenAI({ apiKey });
   let jsonData: any;
 
   // Convert inputData to JSON object if it's a string
@@ -20,8 +13,6 @@ export async function generateExplanation(inputData: object | string): Promise<s
   } else {
     jsonData = inputData;
   }
-
-  const model = "gemini-2.5-pro";
 
   const prompt = `
     You are an expert legal analyst AI. Your task is to analyze the following JSON data, which represents the output of a legal document analyzer.
@@ -81,16 +72,15 @@ The output must be a single <div> block.
 
 Do not include <html>, <head>, or <body> tags.
 
-  `;
+  \n\nInput JSON:\n${JSON.stringify(jsonData, null, 2)}`;
 
   try {
-    const response = await ai.models.generateContent({
-      model,
+    const { text } = await generateContentWithFallback({
+      model: PRIMARY_MODEL,
       contents: prompt,
     });
 
-    // Safely access response.text
-    let htmlContent = response?.text?.trim() ?? "";
+    let htmlContent = text.trim();
 
     if (htmlContent.startsWith("```html")) {
       htmlContent = htmlContent.substring(7);

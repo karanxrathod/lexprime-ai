@@ -5,7 +5,7 @@
  */
 
 import type { AuthenticityAnalysis } from '../../types/legal';
-import { requireGenAIClient, GEMINI_MODEL_FAST } from './geminiClient';
+import { generateContentWithFallback, GEMINI_MODEL_FAST } from './geminiClient';
 import { safeParseJson } from './documentAnalysis';
 import { logger } from '../../utils/logger';
 
@@ -13,9 +13,6 @@ export async function analyzeDocumentAuthenticity(
   content: string,
   language: 'en' | 'hi' | 'mr'
 ): Promise<AuthenticityAnalysis> {
-  const genAI = requireGenAIClient();
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
-
   logger.info('[Authenticity] Running authenticity check');
 
   const langName = language === 'hi' ? 'Hindi' : language === 'mr' ? 'Marathi' : 'English';
@@ -45,16 +42,16 @@ export async function analyzeDocumentAuthenticity(
   ].join('\n');
 
   try {
-    const response = await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: prompt }] }],
-      generationConfig: {
+    const { text } = await generateContentWithFallback({
+      model: GEMINI_MODEL_FAST,
+      contents: prompt,
+      config: {
         temperature: 0.2,
         maxOutputTokens: 1024,
         responseMimeType: 'application/json',
       },
     });
 
-    const text = response.response.text();
     const data = safeParseJson<any>(text);
 
     return {

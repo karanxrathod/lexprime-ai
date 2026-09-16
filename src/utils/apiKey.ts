@@ -1,6 +1,7 @@
-import { GoogleGenerativeAI } from "@google/generative-ai";
+import { GoogleGenAI } from "@google/genai";
 
 const STORAGE_KEY = "user_gemini_api_key";
+const VALIDATION_MODEL = "gemini-3.6-flash";
 
 export function getGeminiApiKey(): string | null {
   // 1. Try localStorage (User override preference)
@@ -33,14 +34,12 @@ export function removeGeminiApiKey(): void {
 
 export async function validateGeminiApiKey(key: string): Promise<boolean> {
   try {
-    const genAI = new GoogleGenerativeAI(key);
-    const model = genAI.getGenerativeModel({ model: "gemini-1.5-flash" });
-    // Simple prompt to test connectivity
-    await model.generateContent({
-      contents: [{ role: 'user', parts: [{ text: 'Test' }] }],
-      generationConfig: { maxOutputTokens: 1 }
+    const ai = new GoogleGenAI({ apiKey: key });
+    const response = await ai.models.generateContent({
+      model: VALIDATION_MODEL,
+      contents: "Reply with OK",
     });
-    return true;
+    return Boolean(response && response.text);
   } catch (error) {
     console.error("API Key validation failed:", error);
     return false;

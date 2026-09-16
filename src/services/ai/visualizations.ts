@@ -5,7 +5,7 @@
  */
 
 import type { VisualizationBundle } from '../../types/legal';
-import { requireGenAIClient, GEMINI_MODEL_FAST } from './geminiClient';
+import { generateContentWithFallback, GEMINI_MODEL_FAST } from './geminiClient';
 import { safeParseJson } from './documentAnalysis';
 import { logger } from '../../utils/logger';
 
@@ -19,9 +19,7 @@ export interface VisualizationParams {
 export async function generateVisualizationsWithGemini(
   params: VisualizationParams
 ): Promise<VisualizationBundle> {
-  const genAI = requireGenAIClient();
   const { document, language, partyALabel = 'Party A', partyBLabel = 'Party B' } = params;
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
 
   logger.info('[Visualizations] Generating visual structures');
 
@@ -64,16 +62,16 @@ export async function generateVisualizationsWithGemini(
     document.slice(0, 10000),
   ].join('\n');
 
-  const response = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: {
+  const { text } = await generateContentWithFallback({
+    model: GEMINI_MODEL_FAST,
+    contents: prompt,
+    config: {
       temperature: 0.2,
       maxOutputTokens: 3000,
       responseMimeType: 'application/json',
     },
   });
 
-  const text = response.response.text();
   const data = safeParseJson<any>(text);
 
   const safeStr = (v: unknown, fallback = ''): string => (typeof v === 'string' ? v : fallback);
@@ -139,9 +137,6 @@ export async function generateVisualizationsWithGemini(
 }
 
 export async function generateLegalSVG(prompt: string): Promise<string> {
-  const genAI = requireGenAIClient();
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
-
   const systemPrompt = `
     You are an expert vector illustrator for legal concepts.
     Generate a modern, clean, valid SVG icon or illustration representing the given legal topic.
@@ -151,19 +146,16 @@ export async function generateLegalSVG(prompt: string): Promise<string> {
     - Must include viewBox for responsive rendering.
   `;
 
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: systemPrompt + '\n\nRequest: ' + prompt }] }],
+  const { text } = await generateContentWithFallback({
+    model: GEMINI_MODEL_FAST,
+    contents: systemPrompt + '\n\nRequest: ' + prompt,
   });
 
-  const text = result.response.text();
   const svgMatch = text.match(/<svg[\s\S]*?<\/svg>/);
   return svgMatch ? svgMatch[0] : text.replace(/```xml/g, '').replace(/```svg/g, '').replace(/```/g, '').trim();
 }
 
 export async function generateMindmapCode(topic: string): Promise<string> {
-  const genAI = requireGenAIClient();
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
-
   const systemPrompt = `
     You are an expert at creating Mermaid.js mindmaps.
     Generate a STRICTLY CONCISE mindmap for the given legal topic.
@@ -173,11 +165,11 @@ export async function generateMindmapCode(topic: string): Promise<string> {
     - Node text must be 1-3 words max. No markdown fences.
   `;
 
-  const result = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: systemPrompt + '\n\nTopic: ' + topic }] }],
+  const { text: rawText } = await generateContentWithFallback({
+    model: GEMINI_MODEL_FAST,
+    contents: systemPrompt + '\n\nTopic: ' + topic,
   });
 
-  let text = result.response.text();
-  text = text.replace(/```mermaid/g, '').replace(/```/g, '').trim();
+  const text = rawText.replace(/```mermaid/g, '').replace(/```/g, '').trim();
   return text;
 }

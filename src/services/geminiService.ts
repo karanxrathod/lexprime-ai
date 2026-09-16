@@ -2,6 +2,7 @@ import { GoogleGenAI, LiveServerMessage, Modality, Blob, Content } from "@google
 import type { ChatMessage } from "../types/types";
 import { getGeminiApiKey } from "../utils/apiKey";
 import { Language } from "../translations";
+import { requireGenAIClient, PRIMARY_MODEL } from "./ai/geminiClient";
 
 // FIX: The `LiveSession` type is not exported from `@google/genai`.
 // We can infer it from the return type of the `ai.live.connect` method.
@@ -199,11 +200,7 @@ export class GeminiLiveService {
 
 
 export async function sendTextMessage(fullHistory: ChatMessage[], document: string, language: Language = "en"): Promise<string> {
-    const apiKey = getGeminiApiKey();
-    if (!apiKey) {
-        throw new Error("Gemini API key not found. Please configure it in Settings.");
-    }
-    const ai = new GoogleGenAI({ apiKey });
+    const ai = requireGenAIClient();
 
     const contents: Content[] = fullHistory.map(msg => ({
         role: msg.role,
@@ -218,7 +215,7 @@ export async function sendTextMessage(fullHistory: ChatMessage[], document: stri
         : `You are a helpful assistant. ${languageInstruction}`;
 
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-flash',
+        model: PRIMARY_MODEL,
         contents: contents,
         config: {
             systemInstruction

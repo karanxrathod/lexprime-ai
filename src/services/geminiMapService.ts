@@ -1,15 +1,6 @@
-import { GoogleGenAI, GenerateContentResponse } from "@google/genai";
+import { GenerateContentResponse } from "@google/genai";
 import { GeolocationCoordinates, Lawyer } from '../types/mapsTypes';
-
-import { getGeminiApiKey } from "../utils/apiKey";
-
-const getAI = () => {
-    const apiKey = getGeminiApiKey();
-    if (!apiKey) {
-        throw new Error("Gemini API key not found. Please configure it in Settings.");
-    }
-    return new GoogleGenAI({ apiKey });
-};
+import { requireGenAIClient, PRIMARY_MODEL } from "./ai/geminiClient";
 
 function parseLawyerInfo(response: GenerateContentResponse): Lawyer[] {
     let text = (response.text ?? '').trim();
@@ -61,9 +52,9 @@ function parseLawyerInfo(response: GenerateContentResponse): Lawyer[] {
 
 export async function findLawyersNearMe(specialty: string, location: GeolocationCoordinates): Promise<Lawyer[]> {
     try {
-        const ai = getAI();
+        const ai = requireGenAIClient();
         const response = await ai.models.generateContent({
-            model: "gemini-2.5-flash",
+            model: PRIMARY_MODEL,
             contents: `Find up to 10 lawyers specializing in "${specialty}" near latitude ${location.latitude} and longitude ${location.longitude}. For each one, provide their name, specialty, address, a brief 2-3 sentence summary, phone number, website, email, average Google Maps star rating (as a number from 0 to 5), and a short, representative user review from Google Maps. Format the entire output as a single JSON array of objects.`,
             config: {
                 tools: [{ googleMaps: {} }],
@@ -92,9 +83,9 @@ export async function findLawyersNearMe(specialty: string, location: Geolocation
 }
 
 export async function analyzeLegalText(text: string): Promise<{ analysis: string; specialty: string; }> {
-    const ai = getAI();
+    const ai = requireGenAIClient();
     const response = await ai.models.generateContent({
-        model: 'gemini-2.5-pro',
+        model: PRIMARY_MODEL,
         contents: `Analyze the following legal text. Provide a simplified summary, identify key clauses, and explain complex terms in plain English, formatted in Markdown. Also, identify the single most relevant legal specialty for this text (e.g., "Contract Law", "Family Law", "Intellectual Property"). Return a JSON object with two keys: "analysis" (the markdown string) and "specialty" (the string for the legal specialty). Legal Text: "${text}"`,
         config: {
             temperature: 0.2,
@@ -135,9 +126,9 @@ export async function analyzeLegalText(text: string): Promise<{ analysis: string
 
 export async function getRelatedSpecialties(specialty: string): Promise<string[]> {
     try {
-        const ai = getAI();
+        const ai = requireGenAIClient();
         const response = await ai.models.generateContent({
-            model: 'gemini-2.5-flash',
+            model: PRIMARY_MODEL,
             contents: `The user searched for a lawyer with specialty "${specialty}" and found no results. Provide a JSON array of 3 to 5 related or alternative legal specialties they could search for instead. For example, if they searched for "car crash lawyer", you might suggest ["personal injury attorney", "auto accident lawyer", "traffic law specialist"]. Return only the JSON array.`,
             config: {
                 responseMimeType: 'application/json',

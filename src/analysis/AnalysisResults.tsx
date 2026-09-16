@@ -221,7 +221,7 @@ const AnalysisResults: React.FC<AnalysisResultsProps> = ({
                 fill="none"
                 viewBox="0 0 24 24"
               >
-                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 19V5m0 14-4-4m4 4-4" />
+                <path stroke="currentColor" strokeLinecap="round" strokeLinejoin="round" strokeWidth="1.5" d="M12 5v14m0 0-4-4m0 0 4-4" />
               </svg>
               <div className={`square absolute aspect-square w-[15px] rounded-sm bg-white dark:bg-slate-200 transition-all duration-400 ease-in-out ${isGeneratingPdf ? 'opacity-100' : 'opacity-0'}`}></div>
             </span>

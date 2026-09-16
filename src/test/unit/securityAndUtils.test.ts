@@ -96,13 +96,13 @@ describe('Security Utilities & Sanitization', () => {
     });
 
     it('stores, retrieves, and removes user API key override safely', () => {
-      expect(getGeminiApiKey()).toBeNull();
+      const defaultKey = getGeminiApiKey();
 
       setGeminiApiKey('AIzaSyTestKey123456');
       expect(getGeminiApiKey()).toBe('AIzaSyTestKey123456');
 
       removeGeminiApiKey();
-      expect(getGeminiApiKey()).toBeNull();
+      expect(getGeminiApiKey()).toBe(defaultKey);
     });
   });
 });

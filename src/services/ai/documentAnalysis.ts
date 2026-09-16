@@ -6,7 +6,7 @@
 
 import { jsonrepair } from 'jsonrepair';
 import type { DocumentAnalysis, SimplificationLevel, Clause, Risk, NegotiationPoint, Citation } from '../../types/legal';
-import { requireGenAIClient, GEMINI_MODEL_FAST, GEMINI_MODEL_FALLBACK } from './geminiClient';
+import { generateContentWithFallback, GEMINI_MODEL_FAST } from './geminiClient';
 import { splitTextIntoChunks } from '../documents/chunking';
 import { runWithConcurrency } from '../../utils/concurrencyPool';
 import { logger } from '../../utils/logger';
@@ -243,8 +243,6 @@ export function mapToDocumentAnalysis(data: any): DocumentAnalysis {
  */
 export async function analyzeDocumentWithGemini(params: AnalyzeParams): Promise<DocumentAnalysis> {
   const { content, language, simplificationLevel } = params;
-  const genAI = requireGenAIClient();
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
 
   logger.documentAction('Starting document analysis', content.length);
 
@@ -272,33 +270,15 @@ export async function analyzeDocumentWithGemini(params: AnalyzeParams): Promise<
     async (chunkText, index) => {
       const prompt = buildChunkPrompt(chunkText, language, simplificationLevel, index + 1, chunks.length);
       try {
-        let response;
-        try {
-          response = await model.generateContent({
-            contents: [{ role: 'user', parts: [{ text: prompt }] }],
-            generationConfig: {
-              temperature: 0.2,
-              maxOutputTokens: 2500,
-              responseMimeType: 'application/json',
-            },
-          });
-        } catch (callErr: any) {
-          if (callErr?.message && (callErr.message.includes('404') || callErr.message.includes('not found') || callErr.message.includes('no longer available'))) {
-            logger.warn(`[DocumentAnalysis] Primary model error, retrying with ${GEMINI_MODEL_FALLBACK}`);
-            const fallbackModel = genAI.getGenerativeModel({ model: GEMINI_MODEL_FALLBACK });
-            response = await fallbackModel.generateContent({
-              contents: [{ role: 'user', parts: [{ text: prompt }] }],
-              generationConfig: {
-                temperature: 0.2,
-                maxOutputTokens: 2500,
-                responseMimeType: 'application/json',
-              },
-            });
-          } else {
-            throw callErr;
-          }
-        }
-        const text = response.response.text();
+        const { text } = await generateContentWithFallback({
+          model: GEMINI_MODEL_FAST,
+          contents: prompt,
+          config: {
+            temperature: 0.2,
+            maxOutputTokens: 2500,
+            responseMimeType: 'application/json',
+          },
+        });
         const parsed = safeParseJson(text);
         return mapToDocumentAnalysis(parsed);
       } catch (err) {

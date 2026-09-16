@@ -16,7 +16,6 @@
   },
   "dependencies": {
     "@google/genai": "^1.26.0",
-    "@google/generative-ai": "^0.24.1",
     "@huggingface/inference": "^4.7.1",
     "firebase": "^12.4.0",
     "framer-motion": "^11.3.8",

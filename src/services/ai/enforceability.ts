@@ -4,7 +4,7 @@
  */
 
 import type { ClauseEnforceabilityResult, Citation } from '../../types/legal';
-import { requireGenAIClient, GEMINI_MODEL_FAST } from './geminiClient';
+import { generateContentWithFallback, GEMINI_MODEL_FAST } from './geminiClient';
 import { safeParseJson } from './documentAnalysis';
 import { isSafeUrl } from '../../utils/sanitizer';
 import { logger } from '../../utils/logger';
@@ -18,9 +18,7 @@ export interface EnforceabilityParams {
 export async function analyzeClauseEnforceabilityWithGemini(
   params: EnforceabilityParams
 ): Promise<ClauseEnforceabilityResult> {
-  const genAI = requireGenAIClient();
   const { clause, jurisdiction, language } = params;
-  const model = genAI.getGenerativeModel({ model: GEMINI_MODEL_FAST });
 
   logger.info('[Enforceability] Analyzing clause for jurisdiction:', jurisdiction);
 
@@ -51,16 +49,16 @@ export async function analyzeClauseEnforceabilityWithGemini(
     clause,
   ].join('\n');
 
-  const response = await model.generateContent({
-    contents: [{ role: 'user', parts: [{ text: prompt }] }],
-    generationConfig: {
+  const { text } = await generateContentWithFallback({
+    model: GEMINI_MODEL_FAST,
+    contents: prompt,
+    config: {
       temperature: 0.2,
       maxOutputTokens: 2048,
       responseMimeType: 'application/json',
     },
   });
 
-  const text = response.response.text();
   const data = safeParseJson<any>(text);
 
   const safeStr = (v: unknown, fallback = ''): string => (typeof v === 'string' ? v : fallback);
