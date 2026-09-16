@@ -1,7 +1,7 @@
 import { GoogleGenAI } from "@google/genai";
 
 const STORAGE_KEY = "user_gemini_api_key";
-const VALIDATION_MODEL = "gemini-3.6-flash";
+const VALIDATION_MODEL = "gemini-2.5-flash";
 
 export function getGeminiApiKey(): string | null {
   // 1. Try localStorage (User override preference)

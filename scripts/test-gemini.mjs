@@ -2,7 +2,7 @@ import fs from 'node:fs';
 import path from 'node:path';
 import { GoogleGenAI } from '@google/genai';
 
-const PRIMARY_MODEL = 'gemini-3.6-flash';
+const PRIMARY_MODEL = 'gemini-2.5-flash';
 const FALLBACK_MODEL = 'gemini-3.5-flash';
 
 // Load key from environment or .env.local

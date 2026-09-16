@@ -9,7 +9,7 @@ import { getGeminiApiKey } from '../../utils/apiKey';
 import { logger } from '../../utils/logger';
 
 // Verified current stable Flash models
-export const PRIMARY_MODEL = 'gemini-3.6-flash';
+export const PRIMARY_MODEL = 'gemini-2.5-flash';
 export const FALLBACK_MODEL = 'gemini-3.5-flash';
 
 // Backward-compatible alias exports
@@ -68,7 +68,7 @@ export function sanitizeErrorMessage(msg: string): string {
     .replace(/Bearer\s+[A-Za-z0-9._-]+/gi, 'Bearer [REDACTED]');
 }
 
-const CANDIDATE_FALLBACKS = ['gemini-2.5-flash', FALLBACK_MODEL];
+const CANDIDATE_FALLBACKS = ['gemini-3.5-flash', 'gemini-3.6-flash'];
 
 function isTransientError(status?: number, message?: string): boolean {
   if (status === 503 || status === 429 || status === 500) return true;
