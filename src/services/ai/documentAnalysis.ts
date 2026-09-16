@@ -263,7 +263,7 @@ export async function analyzeDocumentWithGemini(params: AnalyzeParams): Promise<
   const seenActionKeys = new Set<string>();
   const seenCitationKeys = new Set<string>();
 
-  // Process chunks with controlled concurrency (max 2 parallel tasks to protect API quotas)
+  // Process chunks sequentially to prevent quota/rate-limit collisions
   let lastError: Error | null = null;
   const chunkResults = await runWithConcurrency(
     chunks,
@@ -287,7 +287,7 @@ export async function analyzeDocumentWithGemini(params: AnalyzeParams): Promise<
         return null;
       }
     },
-    2
+    1
   );
 
   const validResults = chunkResults.filter(Boolean);

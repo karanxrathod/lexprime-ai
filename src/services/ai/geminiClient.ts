@@ -68,62 +68,101 @@ export function sanitizeErrorMessage(msg: string): string {
     .replace(/Bearer\s+[A-Za-z0-9._-]+/gi, 'Bearer [REDACTED]');
 }
 
+const CANDIDATE_FALLBACKS = ['gemini-2.5-flash', FALLBACK_MODEL];
+
+function isTransientError(status?: number, message?: string): boolean {
+  if (status === 503 || status === 429 || status === 500) return true;
+  if (!message) return false;
+  const lower = message.toLowerCase();
+  return (
+    lower.includes('high demand') ||
+    lower.includes('unavailable') ||
+    lower.includes('resource_exhausted') ||
+    lower.includes('overloaded') ||
+    lower.includes('try again later')
+  );
+}
+
+const sleep = (ms: number) => new Promise((resolve) => setTimeout(resolve, ms));
+
 export async function generateContentWithFallback(
   options: GenerateOptions
 ): Promise<GeminiCallResult> {
   const ai = requireGenAIClient();
   const primary = options.model || PRIMARY_MODEL;
-  const modelsToTry = [primary];
-  if (primary !== FALLBACK_MODEL) {
-    modelsToTry.push(FALLBACK_MODEL);
-  }
+  
+  // Build unique model sequence: primary -> gemini-2.5-flash -> fallback
+  const modelsToTry: string[] = Array.from(
+    new Set([primary, ...CANDIDATE_FALLBACKS])
+  );
 
   let lastError: any = null;
 
-  for (const model of modelsToTry) {
-    try {
-      logger.info(`[Gemini] Generating content with model: ${model}`);
-      const response = await ai.models.generateContent({
-        model,
-        contents: options.contents,
-        config: options.config,
-      });
+  for (let mIdx = 0; mIdx < modelsToTry.length; mIdx++) {
+    const model = modelsToTry[mIdx];
+    const maxRetries = 2;
 
-      // Extract text safely: prefer text property or parts
-      let text = (response.text || '').trim();
-      if (!text && response.candidates?.[0]?.content?.parts) {
-        text = response.candidates[0].content.parts
-          .map((p: any) => p.text || '')
-          .filter(Boolean)
-          .join('')
-          .trim();
-      }
+    for (let attempt = 0; attempt <= maxRetries; attempt++) {
+      try {
+        if (attempt > 0) {
+          logger.info(`[Gemini] Retrying model ${model} (attempt ${attempt + 1}/${maxRetries + 1})...`);
+        } else {
+          logger.info(`[Gemini] Generating content with model: ${model}`);
+        }
 
-      return {
-        text,
-        rawResponse: response,
-        modelUsed: model,
-      };
-    } catch (err: any) {
-      lastError = err;
-      const status = err?.status || err?.code || (err?.message?.match(/\b([45]\d\d)\b/) ? Number(RegExp.$1) : undefined);
-      const safeMsg = sanitizeErrorMessage(err?.message || String(err));
-      
-      logger.error(`[Gemini] Request failed:
+        const response = await ai.models.generateContent({
+          model,
+          contents: options.contents,
+          config: options.config,
+        });
+
+        // Extract text safely: prefer text property or parts
+        let text = (response.text || '').trim();
+        if (!text && response.candidates?.[0]?.content?.parts) {
+          text = response.candidates[0].content.parts
+            .map((p: any) => p.text || '')
+            .filter(Boolean)
+            .join('')
+            .trim();
+        }
+
+        return {
+          text,
+          rawResponse: response,
+          modelUsed: model,
+        };
+      } catch (err: any) {
+        lastError = err;
+        const status = err?.status || err?.code || (err?.message?.match(/\b([45]\d\d)\b/) ? Number(RegExp.$1) : undefined);
+        const safeMsg = sanitizeErrorMessage(err?.message || String(err));
+        
+        logger.error(`[Gemini] Request failed:
   status: ${status || 'N/A'}
   model: ${model}
+  attempt: ${attempt + 1}
   message: ${safeMsg}`);
 
-      // If this was the primary model and we have a fallback, log warning and continue loop
-      if (model === primary && modelsToTry.length > 1) {
-        logger.warn(`[Gemini] Primary model ${primary} failed (status: ${status || 'unknown'}), attempting fallback ${FALLBACK_MODEL}...`);
+        // If transient error (503 high demand / 429 rate limit), retry with delay
+        if (attempt < maxRetries && isTransientError(status, safeMsg)) {
+          const delay = (attempt + 1) * 1500;
+          logger.warn(`[Gemini] Transient error (${status}) on ${model}. Retrying in ${delay}ms...`);
+          await sleep(delay);
+          continue;
+        }
+
+        // If this model is exhausted and another model exists, advance to next model
+        if (mIdx < modelsToTry.length - 1) {
+          const nextModel = modelsToTry[mIdx + 1];
+          logger.warn(`[Gemini] Model ${model} failed, attempting next fallback ${nextModel}...`);
+        }
+        break; // Break retry loop, try next model in outer loop
       }
     }
   }
 
   const finalStatus = lastError?.status || lastError?.code || 'unknown';
   const finalMsg = sanitizeErrorMessage(lastError?.message || String(lastError));
-  const errToThrow = new Error(`Gemini request failed (status: ${finalStatus}, model: ${modelsToTry[modelsToTry.length - 1]}): ${finalMsg}`);
+  const errToThrow = new Error(`Gemini request failed (status: ${finalStatus}): ${finalMsg}`);
   (errToThrow as any).status = finalStatus;
   (errToThrow as any).cause = lastError;
   throw errToThrow;
